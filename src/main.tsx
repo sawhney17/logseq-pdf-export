@@ -28,13 +28,13 @@ export function downloadPDF(){
     orientation: 'p',
     unit: 'pt',
     format: 'a4',
-    compress: true,
+    compress: false,
   });
   // var getContent = "<div style='font-size:11px; border:1px solid; background-color: rgb(239 240 240); padding: 05px 15px; width:300px;'>"+document.body+"</div>";
 
   pdf.html(document.getElementById("cooldiv"), {
         callback: (doc) => doc.save('filename342.pdf'),
-        margin: 10,
+        margin: 0,
         width: 595,
         windowWidth: 595,
         autoPaging: 'text' 
