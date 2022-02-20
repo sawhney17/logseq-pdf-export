@@ -6,12 +6,23 @@ import './index.css'
 import { handleClosePopup } from './handleClosePopup';
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas"
+import markdownMark from 'markdown-it-mark'
 // import mdToPdf from 'md-to-pdf';
 // import { mdToPdf } from "md-to-pdf"
 // window.html2canvas = html2canvas;
 
 function encodeImage(){
 }
+
+let settings:SettingSchemaDesc = 
+  {
+    key: "css",
+    type: 'string',
+    default: "",
+    title: "Template 1 Css",
+    description: "Enter the css for the template 1",
+  }
+logseq.useSettingsSchema([settings])
 export function downloadPDF(){
   const pdf = new jsPDF({
     orientation: 'p',
@@ -22,7 +33,7 @@ export function downloadPDF(){
   // var getContent = "<div style='font-size:11px; border:1px solid; background-color: rgb(239 240 240); padding: 05px 15px; width:300px;'>"+document.body+"</div>";
 
   pdf.html(document.getElementById("cooldiv"), {
-        callback: (doc) => doc.save('filename34.pdf'),
+        callback: (doc) => doc.save('filename342.pdf'),
         margin: 10,
         width: 595,
         windowWidth: 595,
@@ -43,6 +54,7 @@ function renderApp(env: string) {
 }
 var final3String = "<html><body><h1>Hello YOu are mmean</h1></body><html>"
 import markdownIt from 'markdown-it'
+import { SettingSchemaDesc } from '@logseq/libs/dist/LSPlugin.user'
 
 async function formatText(text2){
   var text = text2.replace(/:LOGBOOK:|collapsed:: true/gi, '');
@@ -74,7 +86,7 @@ if (block!= null ){
 }
 
 
-var md = new markdownIt();
+var md = new markdownIt().use(markdownMark)
 // md.inline.ruler.enable([
 //   'mark'
 // ]);
@@ -92,6 +104,7 @@ async function createPDF () {
       finalString = `${finalString}\n\n ${formattedText}`
     }
 
+    const baseCSS = "h1 {     display: block;     font-size: 2em;     margin-block-start: 0.67__qem;     margin-block-end: 0.67em;     margin-inline-start: 0;     margin-inline-end: 0;     font-weight: bold; } :is(article, aside, nav, section) h1 {     font-size: 1.5em;     margin-block-start: 0.83__qem;     margin-block-end: 0.83em; } :is(article, aside, nav, section) :is(article, aside, nav, section) h1 {     font-size: 1.17em;     margin-block-start: 1__qem;     margin-block-end: 1em; } :is(article, aside, nav, section) :is(article, aside, nav, section) :is(article, aside, nav, section) h1 {     font-size: 1.00em;     margin-block-start: 1.33__qem;     margin-block-end: 1.33em; } :is(article, aside, nav, section) :is(article, aside, nav, section) :is(article, aside, nav, section) :is(article, aside, nav, section) h1 {     font-size: .83em;     margin-block-start: 1.67__qem;     margin-block-end: 1.67em; } :is(article, aside, nav, section) :is(article, aside, nav, section) :is(article, aside, nav, section) :is(article, aside, nav, section) :is(article, aside, nav, section) h1 {     font-size: .67em;     margin-block-start: 2.33__qem;     margin-block-end: 2.33em; } h2 {     display: block;     font-size: 1.5em;     margin-block-start: 0.83__qem;     margin-block-end: 0.83em;     margin-inline-start: 0;     margin-inline-end: 0;     font-weight: bold; } h3 {     display: block;     font-size: 1.17em;     margin-block-start: 1__qem;     margin-block-end: 1em;     margin-inline-start: 0;     margin-inline-end: 0;     font-weight: bold; } h4 {     display: block;     margin-block-start: 1.33__qem;     margin-block-end: 1.33em;     margin-inline-start: 0;     margin-inline-end: 0;     font-weight: bold; } h5 {     display: block;     font-size: .83em;     margin-block-start: 1.67__qem;     margin-block-end: 1.67em;     margin-inline-start: 0;     margin-inline-end: 0;     font-weight: bold; } h6 {     display: block;     font-size: .67em;     margin-block-start: 2.33__qem;     margin-block-end: 2.33em;     margin-inline-start: 0;     margin-inline-end: 0;     font-weight: bold; }"
     const settings = logseq.settings
     const css3 = settings.css
     // const css3 = `<style>
@@ -100,7 +113,8 @@ async function createPDF () {
     // }
     // </style>`
     const final2String = md.render(finalString)
-    final3String = (`<html><head><style>${css3}</style></head><body><div id = "you are cool style='width:100;'">${final2String}</div></body></html>`)
+    console.log(final2String)
+    final3String = (`<html><head><style>${baseCSS}</style></head><body><style>${css3}</style><div id = "you are cool style='width:100;'">${final2String}</div></body></html>`)
     // let final2String = "<h1>Hello World</h1>\n\n<p>This is a paragraph</p>"
     logseq.App.getCurrentGraph().then(async (graph) => {
       const final4String = final3String.replaceAll("../assets", `${graph.path}/assets`)
