@@ -10,7 +10,7 @@ const App: React.FC<{htmlText}> = ({htmlText}) => {
       <div className="w-5/6 h-5/6 bg-clip-padding bg-slate-400 z-30 rounded-2xl p-4">
         <h1 className="font-bold text-4xl">PDF Preview</h1>
         <br></br>
-        <div dangerouslySetInnerHTML={{__html: htmlText}} id = "cooldiv" className='bg-white rounded-xl p-4'></div> 
+        <div dangerouslySetInnerHTML={{__html: htmlText}} id = "cooldiv" className='bg-white rounded-xl'></div> 
         <br></br>
         <div className=''><button className='button' onClick={() => downloadPDF()}>Download</button></div>
         {/* <div><label><input type="checkbox"/>Value</label></div> */}

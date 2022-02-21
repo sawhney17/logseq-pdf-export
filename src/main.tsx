@@ -32,7 +32,7 @@ export function downloadPDF(){
   });
   // var getContent = "<div style='font-size:11px; border:1px solid; background-color: rgb(239 240 240); padding: 05px 15px; width:300px;'>"+document.body+"</div>";
 
-  pdf.html(document.getElementById("cooldiv"), {
+  pdf.html(document.getElementById("you are cool"), {
         callback: (doc) => doc.save('filename342.pdf'),
         margin: 0,
         width: 595,
@@ -96,7 +96,7 @@ async function createPDF () {
     for (const x in currentBlock){
     parseBlocksTree(currentBlock[x])}
     
-    var finalString = ""
+    var finalString = `# ${(await logseq.Editor.getCurrentPage()).originalName}`
     
     for (const x in blocks2){
       const formattedText = await formatText(blocks2[x][0])
@@ -114,10 +114,10 @@ async function createPDF () {
     // </style>`
     const final2String = md.render(finalString)
     console.log(final2String)
-    final3String = (`<html><head><style>${baseCSS}</style></head><body><style>${css3}</style><div id = "you are cool style='width:100;'">${final2String}</div></body></html>`)
+    final3String = (`<html><head><style>${baseCSS}</style></head><body><style>${css3}</style><div id = "you are cool" style='padding: 1rem'">${final2String}</div></body></html>`)
     // let final2String = "<h1>Hello World</h1>\n\n<p>This is a paragraph</p>"
     logseq.App.getCurrentGraph().then(async (graph) => {
-      const final4String = final3String.replaceAll("../assets", `${graph.path}/assets`)
+      const final4String = final3String.replaceAll("../assets", `${graph.path}/assets`).replaceAll("<strong>", "<span id ='bold'>").replaceAll("</strong>", "</span>").replace("<mark>", "<span id ='italic'>").replace("</mark>", "</span id ='italic'>").replaceAll("<mark>", "</span id ='highlightme'>").replaceAll("</mark>", "</span id ='highlightme'>")
       handleClosePopup()
     renderApp(final4String)
     console.log(final4String)
@@ -127,7 +127,6 @@ async function createPDF () {
     
   blocks2 = []
   
-  console.log(document.getElementById('cooldiv'))
 }
 
 var blocks2 = []
