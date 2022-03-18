@@ -10,3 +10,25 @@
   .button:hover {
     background-color: royalblue;
   }
+  .form-group {
+    display: inline-block;
+}
+.centered-element {
+  margin: 0;
+  position: absolute;
+  top: 30%;
+  transform: translateY(-50%);
+}
+.setting-popup {
+  padding: 1em;
+  background: rgb(40, 157, 165); 
+  z-index: 9; 
+  border-radius: 10px;
+  /* -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); */
+}
+.blockquote, dl, dd, h1, h2, h3, h4, h5, h6, hr, figure, p, pre {
+  margin: 0;
+  font-size: x-large;
+  font-weight: bold;
+}
