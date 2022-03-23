@@ -8,18 +8,8 @@ import { handleClosePopup } from "./handleClosePopup";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
 import markdownMark from "markdown-it-mark";
-// import mdToPdf from 'md-to-pdf';
-// import { mdToPdf } from "md-to-pdf"
-// window.html2canvas = html2canvas;
 
-function encodeImage() {}
 
-// function ApplyUserSettings(){
-//   let settings = logseq.settings[]
-//   if logseq.settings.
-//   if logseq.settings.
-//   if logseq.settings.
-// }
 const propertyOptions = [
   "Hide Page Properties",
   "Hide Brackets",
@@ -117,9 +107,7 @@ async function formatText(text2, template) {
     logseq.settings[`${template}Options`].includes("Hide Page Properties")
   ) {
     text = text.replaceAll(/((?<=::).*|.*::)/g, "");
-    console.log("Error Detected");
   }
-  else{console.log("Error 2j3hfkjjdh");}
   if (logseq.settings[`${template}Options`].includes("Hide Brackets")) {
     text = text.replaceAll("[[", "");
     text = text.replaceAll("]]", "");
@@ -175,22 +163,9 @@ export async function createPDF(templateName) {
     finalString = `${finalString}\n\n ${formattedText}`;
   }
 
-  //Perform removal functions
   finalString = finalString.replaceAll("#+BEGIN_QUOTE", "");
   finalString = finalString.replaceAll("#+END_QUOTE", "");
-  //implement user settings based removal
-  // if (logseq.settings[`${templateName}Options`].includes("Hide Page Properties")){
-    console.log("HSdklsjvhd")
-  console.log(logseq.settings[`${templateName}Options`]);
-  console.log(logseq.settings)
-  console.log("HSdklsjvhd")
-  // }
-  // finalString = finalString.replaceAll(/- (#)\1{0,}./g,replacerFunctoin)
-  function replacerFunctoin(match) {
-    console.log(match);
-    return match.substring(2);
-  }
-
+  
   const baseCSS =
     "h1 {     display: block;     font-size: 2em;     margin-block-start: 0.67__qem;     margin-block-end: 0.67em;     margin-inline-start: 0;     margin-inline-end: 0;     font-weight: bold; } :is(article, aside, nav, section) h1 {     font-size: 1.5em;     margin-block-start: 0.83__qem;     margin-block-end: 0.83em; } :is(article, aside, nav, section) :is(article, aside, nav, section) h1 {     font-size: 1.17em;     margin-block-start: 1__qem;     margin-block-end: 1em; } :is(article, aside, nav, section) :is(article, aside, nav, section) :is(article, aside, nav, section) h1 {     font-size: 1.00em;     margin-block-start: 1.33__qem;     margin-block-end: 1.33em; } :is(article, aside, nav, section) :is(article, aside, nav, section) :is(article, aside, nav, section) :is(article, aside, nav, section) h1 {     font-size: .83em;     margin-block-start: 1.67__qem;     margin-block-end: 1.67em; } :is(article, aside, nav, section) :is(article, aside, nav, section) :is(article, aside, nav, section) :is(article, aside, nav, section) :is(article, aside, nav, section) h1 {     font-size: .67em;     margin-block-start: 2.33__qem;     margin-block-end: 2.33em; } h2 {     display: block;     font-size: 1.5em;     margin-block-start: 0.83__qem;     margin-block-end: 0.83em;     margin-inline-start: 0;     margin-inline-end: 0;     font-weight: bold; } h3 {     display: block;     font-size: 1.17em;     margin-block-start: 1__qem;     margin-block-end: 1em;     margin-inline-start: 0;     margin-inline-end: 0;     font-weight: bold; } h4 {     display: block;     margin-block-start: 1.33__qem;     margin-block-end: 1.33em;     margin-inline-start: 0;     margin-inline-end: 0;     font-weight: bold; } h5 {     display: block;     font-size: .83em;     margin-block-start: 1.67__qem;     margin-block-end: 1.67em;     margin-inline-start: 0;     margin-inline-end: 0;     font-weight: bold; } h6 {     display: block;     font-size: .67em;     margin-block-start: 2.33__qem;     margin-block-end: 2.33em;     margin-inline-start: 0;     margin-inline-end: 0;     font-weight: bold; } /* lists */ ul, menu, dir {     display: block;           margin-block-start: 1__qem;     margin-block-end: 1em;     margin-inline-start: 0;     margin-inline-end: 0;     padding-inline-start: 40px; } ol {     display: block;     list-style-type: decimal;     margin-block-start: 1__qem;     margin-block-end: 1em;     margin-inline-start: 0;     margin-inline-end: 0;     padding-inline-start: 40px; } li {     display: list-item;     text-align: match-parent; } /* FIXME: this should also match ::before::marker and ::after::marker but we don't support    this yet. When we do, we can remove the code specific to ::before and ::after in    RenderListItem::computeMarkerStyle(), see bugs.webkit.org/b/218897. */ ::marker {     unicode-bidi: isolate;     font-variant-numeric: tabular-nums;     white-space: pre;     text-transform: none; transform-origin: 0px 5px 5px;} ul ul, ol ul {       } ol ol ul, ol ul ul, ul ol ul, ul ul ul {       } dd {     display: block;     margin-inline-start: 40px; } dl {     display: block;     margin-block-start: 1__qem;     margin-block-end: 1em;     margin-inline-start: 0;     margin-inline-end: 0; } dt {     display: block; } ol ul, ul ol, ul ul, ol ol {     margin-block-start: 0;     margin-block-end: 0; } .italic{font-style: italic;} .bold{font-weight: bold;} .codeme{font-family: Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;}";
   const settings = logseq.settings;
@@ -199,9 +174,9 @@ export async function createPDF(templateName) {
   var final2String = md.render(finalString);
   final2String = final2String.replace();
   final3String = `<html><head><style>${baseCSS}</style></head><body><style>${css3}</style><div id = "you are cool" style='padding: 1rem'">${final2String}</div></body></html>`;
-  // let final2String = "<h1>Hello World</h1>\n\n<p>This is a paragraph</p>"
+
   logseq.App.getCurrentGraph().then(async (graph) => {
-    // const final4String = final3String.replaceAll("../assets", `${graph.path}/assets`).replaceAll("<strong>", "<span class ='bold'>").replaceAll("</strong>", "</span>").replaceAll("<em>", "<span class ='italic'>").replaceAll("</em>", "</span id ='italic'>").replaceAll("<mark>", "</span class ='highlightme'>").replaceAll("</mark>", "</span id ='highlightme'>").replaceAll("<code>", "</span class ='codeme'>").replaceAll("</code>", "</span class ='codeme'>").replaceAll("<img>","\n<img>")
+
     var final4String = final3String
       .replaceAll("../assets", `${graph.path}/assets`)
       .replaceAll("<strong>", "</span><strong>")
@@ -237,7 +212,6 @@ function parseBlocksTree(obj) {
   }
 }
 const main = async () => {
-  console.log(await logseq.App.getCurrentGraph());
 
   logseq.App.registerUIItem("toolbar", {
     key: "logseq-plugin-react-boilerplate",
@@ -263,14 +237,8 @@ const main = async () => {
     );
   }
 
-  console.log("Plugin Loaded2");
 
-  logseq.App.registerPageMenuItem("Download Page as PDF", createPDF);
-  logseq.Editor.registerSlashCommand("Parse Children", async (e) => {
-    // insertSomeBlocks(e)
-    // createPDF()
-    logseq.showMainUI();
-  });
+  logseq.App.registerPageMenuItem("Download Page as PDF", renderSecondApp);
 };
 
 logseq.ready(main).catch(console.error);
