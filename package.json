@@ -1,6 +1,6 @@
 {
   "name": "logseq-pdf-export-plugin",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "main": "dist/index.html",
   "logseq": {
     "id": "logseq-plugin-react-boilerplate",
