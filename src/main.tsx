@@ -216,7 +216,7 @@ const main = async () => {
   logseq.App.registerUIItem("toolbar", {
     key: "logseq-plugin-react-boilerplate",
     template:
-      '<a data-on-click="show" class="button"><i class="ti ti-window"></i></a>',
+      '<a data-on-click="show" class="button"><i class="ti ti-file-export"></i></a>',
   });
   logseq.provideModel({
     show() {
