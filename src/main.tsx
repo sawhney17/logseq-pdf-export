@@ -207,7 +207,7 @@ function parseBlocksTree(obj) {
 }
 const main = async () => {
   logseq.App.registerUIItem("toolbar", {
-    key: "logseq-plugin-react-boilerplate",
+    key: "logseq-pdf-export-plugin",
     template:
       '<a data-on-click="show" class="button"><i class="ti ti-file-export"></i></a>',
   });

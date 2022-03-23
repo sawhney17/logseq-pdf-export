@@ -1,6 +1,6 @@
 {
   "name": "logseq-pdf-export-plugin",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "main": "dist/index.html",
   "logseq": {
     "id": "logseq-pdf-export-plugin",
