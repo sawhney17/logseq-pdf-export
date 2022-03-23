@@ -184,7 +184,7 @@ export async function createPDF(templateName) {
 
     if (logseq.settings[templateName + "Options"].includes("Hide Bullets")) {
       final4String = final4String.replaceAll("<p>", "<p><span>");
-    } else final4String = final4String.replaceAll("<p>", "<p><span>•");
+    } else final4String = final4String.replaceAll("<p>", "<p><span>• ");
     handleClosePopup();
     renderApp(final4String);
   });
