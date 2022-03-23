@@ -142,9 +142,9 @@ export async function createPDF(templateName) {
   for (const x in currentBlock) {
     parseBlocksTree(currentBlock[x]);
   }
-
+  console.log();
   var finalString = `# ${(await logseq.Editor.getCurrentPage()).originalName}`;
-  var finalString = ``;
+  // var finalString = ``;
 
   for (const x in blocks2) {
     var formattedText = await formatText(blocks2[x][0], templateName);
@@ -177,14 +177,19 @@ export async function createPDF(templateName) {
       .replaceAll("<strong>", "</span><strong>")
       .replaceAll("<em>", "</span><em>")
       .replaceAll("<code>", "</span><code>")
-      .replaceAll("</p>", "</span></p>")
       .replaceAll("<li>", "<li><span>")
       .replaceAll("</li>", "</span></li>")
       .replaceAll("<img>", "\n<img>");
 
     if (logseq.settings[templateName + "Options"].includes("Hide Bullets")) {
-      final4String = final4String.replaceAll("<p>", "<p><span>");
-    } else final4String = final4String.replaceAll("<p>", "<p><span>• ");
+      final4String = final4String
+        .replaceAll("<p>", "<p><span>")
+        .replaceAll("</p>", "</span></p><br></br>");
+    } else {
+      final4String = final4String
+        .replaceAll("<p>", "<p><span>• ")
+        .replaceAll("</p>", "</span></p>");
+    }
     handleClosePopup();
     renderApp(final4String);
   });
