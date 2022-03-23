@@ -32,3 +32,11 @@ html, body {
   overflow-y: auto;
   text-align:justify;
 }
+
+/* ::marker {     
+  unicode-bidi: isolate;     
+  font-variant-numeric: tabular-nums;     
+  white-space: pre;     
+  text-transform: none;
+  transform-origin: 0px 5px 5px;
+} */
