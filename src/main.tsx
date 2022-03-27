@@ -6,7 +6,6 @@ import App2 from "./App2";
 import "./index.css";
 import { handleClosePopup } from "./handleClosePopup";
 import { jsPDF } from "jspdf";
-import html2canvas from "html2canvas";
 import markdownMark from "markdown-it-mark";
 
 const propertyOptions = [
@@ -163,7 +162,7 @@ export async function createPDF(templateName) {
   finalString = finalString.replaceAll("#+END_QUOTE", "");
 
   const baseCSS =
-    "h1 {     display: block;     font-size: 2em;     margin-block-start: 0.67__qem;     margin-block-end: 0.67em;     margin-inline-start: 0;     margin-inline-end: 0;     font-weight: bold; } :is(article, aside, nav, section) h1 {     font-size: 1.5em;     margin-block-start: 0.83__qem;     margin-block-end: 0.83em; } :is(article, aside, nav, section) :is(article, aside, nav, section) h1 {     font-size: 1.17em;     margin-block-start: 1__qem;     margin-block-end: 1em; } :is(article, aside, nav, section) :is(article, aside, nav, section) :is(article, aside, nav, section) h1 {     font-size: 1.00em;     margin-block-start: 1.33__qem;     margin-block-end: 1.33em; } :is(article, aside, nav, section) :is(article, aside, nav, section) :is(article, aside, nav, section) :is(article, aside, nav, section) h1 {     font-size: .83em;     margin-block-start: 1.67__qem;     margin-block-end: 1.67em; } :is(article, aside, nav, section) :is(article, aside, nav, section) :is(article, aside, nav, section) :is(article, aside, nav, section) :is(article, aside, nav, section) h1 {     font-size: .67em;     margin-block-start: 2.33__qem;     margin-block-end: 2.33em; } h2 {     display: block;     font-size: 1.5em;     margin-block-start: 0.83__qem;     margin-block-end: 0.83em;     margin-inline-start: 0;     margin-inline-end: 0;     font-weight: bold; } h3 {     display: block;     font-size: 1.17em;     margin-block-start: 1__qem;     margin-block-end: 1em;     margin-inline-start: 0;     margin-inline-end: 0;     font-weight: bold; } h4 {     display: block;     margin-block-start: 1.33__qem;     margin-block-end: 1.33em;     margin-inline-start: 0;     margin-inline-end: 0;     font-weight: bold; } h5 {     display: block;     font-size: .83em;     margin-block-start: 1.67__qem;     margin-block-end: 1.67em;     margin-inline-start: 0;     margin-inline-end: 0;     font-weight: bold; } h6 {     display: block;     font-size: .67em;     margin-block-start: 2.33__qem;     margin-block-end: 2.33em;     margin-inline-start: 0;     margin-inline-end: 0;     font-weight: bold; } /* lists */ ul, menu, dir {     display: block;           margin-block-start: 1__qem;     margin-block-end: 1em;     margin-inline-start: 0;     margin-inline-end: 0;     padding-inline-start: 40px; } ol {     display: block;     list-style-type: decimal;     margin-block-start: 1__qem;     margin-block-end: 1em;     margin-inline-start: 0;     margin-inline-end: 0;     padding-inline-start: 40px; } li {     display: list-item;     text-align: match-parent; } /* FIXME: this should also match ::before::marker and ::after::marker but we don't support    this yet. When we do, we can remove the code specific to ::before and ::after in    RenderListItem::computeMarkerStyle(), see bugs.webkit.org/b/218897. */ ::marker {     unicode-bidi: isolate;     font-variant-numeric: tabular-nums;     white-space: pre;     text-transform: none; transform-origin: 0px 5px 5px;} ul ul, ol ul {       } ol ol ul, ol ul ul, ul ol ul, ul ul ul {       } dd {     display: block;     margin-inline-start: 40px; } dl {     display: block;     margin-block-start: 1__qem;     margin-block-end: 1em;     margin-inline-start: 0;     margin-inline-end: 0; } dt {     display: block; } ol ul, ul ol, ul ul, ol ol {     margin-block-start: 0;     margin-block-end: 0; } .italic{font-style: italic;} .bold{font-weight: bold;} .codeme{font-family: Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;}";
+    "h1 {     display: block;     font-size: 2em;     margin-block-start: 0.67__qem;     margin-block-end: 0.67em;     margin-inline-start: 0;     margin-inline-end: 0;     font-weight: bold; } :is(article, aside, nav, section) h1 {     font-size: 1.5em;     margin-block-start: 0.83__qem;     margin-block-end: 0.83em; } :is(article, aside, nav, section) :is(article, aside, nav, section) h1 {     font-size: 1.17em;     margin-block-start: 1__qem;     margin-block-end: 1em; } :is(article, aside, nav, section) :is(article, aside, nav, section) :is(article, aside, nav, section) h1 {     font-size: 1.00em;     margin-block-start: 1.33__qem;     margin-block-end: 1.33em; } :is(article, aside, nav, section) :is(article, aside, nav, section) :is(article, aside, nav, section) :is(article, aside, nav, section) h1 {     font-size: .83em;     margin-block-start: 1.67__qem;     margin-block-end: 1.67em; } :is(article, aside, nav, section) :is(article, aside, nav, section) :is(article, aside, nav, section) :is(article, aside, nav, section) :is(article, aside, nav, section) h1 {     font-size: .67em;     margin-block-start: 2.33__qem;     margin-block-end: 2.33em; } h2 {     display: block;     font-size: 1.5em;     margin-block-start: 0.83__qem;     margin-block-end: 0.83em;     margin-inline-start: 0;     margin-inline-end: 0;     font-weight: bold; } h3 {     display: block;     font-size: 1.17em;     margin-block-start: 1__qem;     margin-block-end: 1em;     margin-inline-start: 0;     margin-inline-end: 0;     font-weight: bold; } h4 {     display: block;     margin-block-start: 1.33__qem;     margin-block-end: 1.33em;     margin-inline-start: 0;     margin-inline-end: 0;     font-weight: bold; } h5 {     display: block;     font-size: .83em;     margin-block-start: 1.67__qem;     margin-block-end: 1.67em;     margin-inline-start: 0;     margin-inline-end: 0;     font-weight: bold; } h6 {     display: block;     font-size: .67em;     margin-block-start: 2.33__qem;     margin-block-end: 2.33em;     margin-inline-start: 0;     margin-inline-end: 0;     font-weight: bold; } /* lists */ ul, menu, dir {     display: block;           margin-block-start: 1__qem;     margin-block-end: 1em;     margin-inline-start: 0;     margin-inline-end: 0;     padding-inline-start: 40px; } ol {     display: block;     list-style-type: decimal;     margin-block-start: 1__qem;     margin-block-end: 1em;     margin-inline-start: 0;     margin-inline-end: 0;     padding-inline-start: 40px; } li {     display: list-item;     text-align: match-parent; } /* FIXME: this should also match ::before::marker and ::after::marker but we don't support    this yet. When we do, we can remove the code specific to ::before and ::after in    RenderListItem::computeMarkerStyle(), see bugs.webkit.org/b/218897. */ ::marker {     unicode-bidi: isolate;     font-variant-numeric: tabular-nums;     white-space: pre;     text-transform: none; transform-origin: 0px 5px 5px;} ul ul, ol ul {       } ol ol ul, ol ul ul, ul ol ul, ul ul ul {       } dd {     display: block;     margin-inline-start: 40px; } dl {     display: block;     margin-block-start: 1__qem;     margin-block-end: 1em;     margin-inline-start: 0;     margin-inline-end: 0; } dt {     display: block; } ol ul, ul ol, ul ul, ol ol {     margin-block-start: 0;     margin-block-end: 0; } .italic{font-style: italic;} .bold{font-weight: bold;} .codeme{font-family: Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;} .br { display: block; margin-bottom: 0em; } .brmedium { display: block; margin-bottom: 1em; } .brlarge { display: block; margin-bottom: 2em; }";
   const settings = logseq.settings;
   const css3 = settings[templateName + "CSS"];
 
@@ -179,12 +178,33 @@ export async function createPDF(templateName) {
       .replaceAll("<code>", "</span><code>")
       .replaceAll("<li>", "<li><span>")
       .replaceAll("</li>", "</span></li>")
-      .replaceAll("<img>", "\n<img>");
+      .replaceAll("<img>", "\n<img>")
+      .replaceAll("<p><h1>", "<h1>")
+      .replaceAll("</h1></p>", "<h1>")
+      .replaceAll("<p><h2>", "<h2>")
+      .replaceAll("</h2></p>", "<h2>")
+      .replaceAll("<p><h3>", "<h3>")
+      .replaceAll("</h3></p>", "<h3>")
+      .replaceAll("<p><h4>", "<h4>")
+      .replaceAll("</h4></p>", "<h4>")
+      .replaceAll("<p><h5>", "<h5>")
+      .replaceAll("</h5></p>", "<h5>")
+      .replaceAll("<h1>", "<h1><span>")
+      .replaceAll("</h1>", "</span></h1>")
+      .replaceAll("<h2>", "<h2><span>")
+      .replaceAll("</h2>", "</span></h2>")
+      .replaceAll("<h3>", "<h3><span>")
+      .replaceAll("</h3>", "</span></h3>")
+      .replaceAll("<h4>", "<h4><span>")
+      .replaceAll("</h4>", "</span></h4>")
+      .replaceAll("<h5>", "<h5><span>")
+      .replaceAll("</h5>", "</span></h5>")
+
 
     if (logseq.settings[templateName + "Options"].includes("Hide Bullets")) {
       final4String = final4String
-        .replaceAll("<p>", "<p><span>")
-        .replaceAll("</p>", "</span></p><br></br>");
+        .replaceAll("<p>", "<p><span id = 'br'>")
+        .replaceAll("</p>", "</span></p>");
     } else {
       final4String = final4String
         .replaceAll("<p>", "<p><span>• ")
