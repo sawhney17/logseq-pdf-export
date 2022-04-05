@@ -35,7 +35,7 @@ const App: React.FC<{htmlText}> = ({htmlText}) => {
       <div className="w-5/6 h-5/6 bg-clip-padding">
       <div className="bg-slate-400 z-30 rounded-2xl p-4">
       
-        <h1 className="font-bold text-4xl">PDF Preview</h1>
+        <h1 className="font-bold text-4xl chinese" >PDF Preview</h1>
         <br></br>
         <div dangerouslySetInnerHTML={{__html: htmlText}} id = "cooldiv" className='bg-white rounded-xl'></div> 
         <br></br>

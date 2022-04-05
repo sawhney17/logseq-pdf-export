@@ -40,3 +40,6 @@ html, body {
   text-transform: none;
   transform-origin: 0px 5px 5px;
 } */
+.chinese {
+  font-family: "SimSun";
+}

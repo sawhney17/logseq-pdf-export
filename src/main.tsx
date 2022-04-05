@@ -13,6 +13,7 @@ const propertyOptions = [
   "Hide Brackets",
   "Hide Bullets",
 ];
+
 let settings: SettingSchemaDesc[] = [
   {
     key: "template1CSS",
@@ -71,8 +72,10 @@ export function downloadPDF() {
     format: "a4",
     compress: false,
   });
-  // var getContent = "<div style='font-size:11px; border:1px solid; background-color: rgb(239 240 240); padding: 05px 15px; width:300px;'>"+document.body+"</div>";
 
+  // var getContent = "<div style='font-size:11px; border:1px solid; background-color: rgb(239 240 240); padding: 05px 15px; width:300px;'>"+document.body+"</div>";
+  pdf.addFont("chinese-normal.ttf", "chinese", "normal");
+  pdf.setFont("chinese", "normal");
   pdf.html(document.getElementById("you are cool"), {
     callback: (doc) => doc.save("download.pdf"),
     margin: 0,
@@ -80,6 +83,29 @@ export function downloadPDF() {
     windowWidth: 595,
     autoPaging: "text",
   });
+}
+
+export function downloadRawPDF() {
+  const pdf2 = new jsPDF({
+    orientation: "p",
+    unit: "pt",
+    format: "a4",
+    compress: false,
+  });
+  console.log(top)
+  console.log(top.document.body)
+  let counterTop = top.document.body
+  pdf2.html(counterTop),
+    {
+      callback: (doc) => {
+        console.log(doc)
+        doc.save("download.pdf");
+      },
+      margin: 0,
+      width: 595,
+      windowWidth: 595,
+      autoPaging: "text",
+    };
 }
 
 function renderApp(env: string) {
@@ -94,6 +120,7 @@ function renderApp(env: string) {
 var final3String = "<html><body><h1>Hello YOu are mmean</h1></body><html>";
 import markdownIt from "markdown-it";
 import { SettingSchemaDesc } from "@logseq/libs/dist/LSPlugin.user";
+import { count } from "console";
 
 async function formatText(text2, template) {
   var text: string = text2.replace(/:LOGBOOK:|collapsed:: true/gi, "");
@@ -168,7 +195,7 @@ export async function createPDF(templateName) {
 
   var final2String = md.render(finalString);
   final2String = final2String.replace();
-  final3String = `<html><head><style>${baseCSS}</style></head><body><style>${css3}</style><div id = "you are cool" style='padding: 1rem'">${final2String}</div></body></html>`;
+  final3String = `<html><head><style>@import url('https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&display=swap');</style><style>${baseCSS}</style></head><body><style>${css3}</style><div id = "you are cool" style='padding: 1rem'">${final2String}</div></body></html>`;
 
   logseq.App.getCurrentGraph().then(async (graph) => {
     var final4String = final3String
@@ -198,7 +225,7 @@ export async function createPDF(templateName) {
       .replaceAll("<h4>", "<h4><span>")
       .replaceAll("</h4>", "</span></h4>")
       .replaceAll("<h5>", "<h5><span>")
-      .replaceAll("</h5>", "</span></h5>")
+      .replaceAll("</h5>", "</span></h5>");
     if (logseq.settings[templateName + "Options"].includes("Hide Bullets")) {
       final4String = final4String
         .replaceAll("<p>", "<p><span id = 'br'>")
@@ -234,9 +261,17 @@ const main = async () => {
     template:
       '<a data-on-click="show" class="button"><i class="ti ti-file-export"></i></a>',
   });
+  logseq.App.registerUIItem("toolbar", {
+    key: "logseq-pdf-export-plugin2",
+    template:
+      '<a data-on-click="exportNormally" class="button"><i class="ti ti-clock"></i></a>',
+  });
   logseq.provideModel({
     show() {
       initializeApp();
+    },
+    exportNormally() {
+      downloadRawPDF();
     },
   });
 
