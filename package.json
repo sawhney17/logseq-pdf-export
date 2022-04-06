@@ -17,6 +17,7 @@
     "jspdf": "latest",
     "markdown-it": "^12.3.2",
     "markdown-it-mark": "^3.0.1",
+    "mldoc": "^1.3.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   },
@@ -30,5 +31,10 @@
     "tailwindcss": "^3.0.15",
     "typescript": "^4.4.4",
     "vite": "^2.7.2"
+  },
+  "alias": {
+    "Mldoc": {
+      "global": "Mldoc"
+    }
   }
 }

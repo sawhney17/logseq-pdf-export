@@ -32,3 +32,11 @@
   font-size: x-large;
   font-weight: bold;
 } */
+
+.references{
+  display: none;
+}
+
+.p {
+  page-break-inside: avoid;
+}
