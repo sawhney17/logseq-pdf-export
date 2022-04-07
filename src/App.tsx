@@ -1,8 +1,6 @@
-import { useState } from "react";
 import "./App.css";
 import { downloadPDF } from "./main";
-var hello = "hello";
-const App: React.FC<{ htmlText; isBullets }> = ({ htmlText, isBullets }) => {
+const App: React.FC<{ htmlText }> = ({ htmlText }) => {
   function handleInputChange(event) {
     const target = event.target;
     console.log(target.checked);
@@ -24,7 +22,7 @@ const App: React.FC<{ htmlText; isBullets }> = ({ htmlText, isBullets }) => {
             ></div>
             <br></br>
             <div className="">
-              <button className="button" onClick={() => downloadPDF(isBullets)}>
+              <button className="button" onClick={() => downloadPDF()}>
                 Download
               </button>
             </div>

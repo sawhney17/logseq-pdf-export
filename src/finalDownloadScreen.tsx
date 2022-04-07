@@ -5,6 +5,9 @@ var hello = "hello"
 const App4: React.FC<{htmlText}> = ({htmlText}) => {
   React.useEffect(() => {
     window.print()
+    window.onafterprint = () => {
+      logseq.hideMainUI()
+    }
   })
 
   return (

@@ -3,7 +3,7 @@ import './App.css'
 import { downloadPDF } from './main'
 import ReactDOM from 'react-dom'
 import App4 from './finalDownloadScreen'
-const App3: React.FC<{htmlText, isBullets}> = ({htmlText, isBullets}) => {
+const App3: React.FC<{htmlText}> = ({htmlText}) => {
   
   function handleInputChange(event) {
     const target = event.target;
