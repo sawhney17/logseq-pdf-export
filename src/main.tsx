@@ -33,7 +33,7 @@ let settings: SettingSchemaDesc[] = [
   {
     key: "template1Choice",
     type: "enum",
-    default: "",
+    default: "Bullets for non top level elements",
     title: "Template 1 Choice",
     enumChoices: mainOptions,
     enumPicker: "radio",
@@ -42,7 +42,7 @@ let settings: SettingSchemaDesc[] = [
   {
     key: "template1Options",
     type: "enum",
-    default: "Bullets for non top level elements",
+    default: ["Inherit logseq CSS"],
     title: "Template 1 Options",
     enumChoices: propertyOptions,
     enumPicker: "checkbox",
@@ -67,7 +67,7 @@ let settings: SettingSchemaDesc[] = [
   {
     key: "template2Options",
     type: "enum",
-    default: "",
+    default: ["Inherit logseq CSS"],
     title: "Template 2 Options",
     enumChoices: propertyOptions,
     enumPicker: "checkbox",
@@ -92,7 +92,7 @@ let settings: SettingSchemaDesc[] = [
   {
     key: "template3Options",
     type: "enum",
-    default: "Flatten document(No bullets)",
+    default: ["Inherit logseq CSS"],
     title: "Template 3 Options",
     enumChoices: propertyOptions,
     enumPicker: "checkbox",
