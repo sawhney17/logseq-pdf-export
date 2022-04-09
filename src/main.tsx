@@ -265,16 +265,10 @@ const main = async () => {
     template:
       '<a data-on-click="show" class="button"><i class="ti ti-file-export"></i></a>',
   });
-  logseq.App.registerUIItem("toolbar", {
-    key: "logseq-pdf-export-plugin2",
-    template:
-      '<a data-on-click="exportNormally" class="button"><i class="ti ti-clock"></i></a>',
-  });
   logseq.provideModel({
     show() {
       initializeApp();
     },
-    exportNormally() {},
   });
 
   function initializeApp() {
