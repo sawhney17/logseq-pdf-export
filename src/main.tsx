@@ -161,6 +161,7 @@ export async function createPDF(templateName) {
   for (const x in currentBlock) {
     parseBlocksTree(currentBlock[x]);
   }
+  console.log(blocks2);
   var finalString = `# ${(await logseq.Editor.getCurrentPage()).originalName}`;
   // var finalString = ``;
 
@@ -171,7 +172,7 @@ export async function createPDF(templateName) {
     for (const x in blocks2) {
       var formattedText = await formatText(blocks2[x][0], templateName);
       //if templateName has bullets enabled
-      console.log(blocks2[x][1]);
+      console.log(formattedText);
       if (blocks2[x][1] > 1) {
         formattedText = "- " + formattedText;
         for (let step = 1; step < blocks2[x][1]; step++) {
@@ -180,6 +181,7 @@ export async function createPDF(templateName) {
         }
       }
       //Filter to remove bullets when they are hastags as well
+      console.log(formattedText);
       finalString = `${finalString}\n\n ${formattedText}`;
     }
   } else if (
@@ -188,10 +190,12 @@ export async function createPDF(templateName) {
     for (const x in blocks2) {
       var formattedText = await formatText(blocks2[x][0], templateName);
       console.log(blocks2[x][1]);
-      formattedText = "- " + formattedText;
-      for (let step = 1; step < blocks2[x][1]; step++) {
-        //For each value of step add a space in front of the dash
-        formattedText = "  " + formattedText;
+      if (blocks2[x][1] > 0) {
+        formattedText = "- " + formattedText;
+        for (let step = 1; step < blocks2[x][1]; step++) {
+          //For each value of step add a space in front of the dash
+          formattedText = "  " + formattedText;
+        }
       }
       finalString = `${finalString}\n\n ${formattedText}`;
     }
@@ -226,10 +230,9 @@ export async function createPDF(templateName) {
   final3String = `<html><head><style>@import url('https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&display=swap');</style><style>${baseCSS}</style></head><body><style>${css3}</style><div id = "you are cool" style='padding: 1rem'">${final2String}</div></body></html>`;
 
   logseq.App.getCurrentGraph().then(async (graph) => {
-    var final4String = final3String.replaceAll(
-      "../assets",
-      `${graph.path}/assets`
-    );
+    var final4String = final3String
+      .replaceAll("../assets", `${graph.path}/assets`)
+      .replaceAll("<p>BahBahBlackSheepYouAreAMeanSheep</p>", "<br>");
     var final5String = final4String;
     //Add paragraph spacing if all bullets are selected
 
@@ -250,10 +253,16 @@ var blocks2 = [];
 function parseBlocksTree(obj) {
   conductParsing(obj);
   function conductParsing(obj) {
-    if (obj.content) {
+    if (obj.content != "") {
       let content2 = obj.content;
       let level = obj.level;
       blocks2.push([content2, level]);
+    } else if (obj.content == "") {
+      let content2 = "BahBahBlackSheepYouAreAMeanSheep";
+      let level = 0;
+      blocks2.push([content2, level]);
+    } else {
+      console.log(obj);
     }
 
     obj.children.map(conductParsing);
