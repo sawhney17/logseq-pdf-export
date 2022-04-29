@@ -1,5 +1,5 @@
 import "@logseq/libs";
-import React from "react";
+import React, { Children } from "react";
 import ReactDOM, { render } from "react-dom";
 import App from "./App";
 import App2 from "./App2";
@@ -8,7 +8,10 @@ import { handleClosePopup } from "./handleClosePopup";
 import markdownMark from "markdown-it-mark";
 import markdownIt from "markdown-it";
 import markdownTable from "markdown-it-multimd-table";
-import { SettingSchemaDesc } from "@logseq/libs/dist/LSPlugin.user";
+import {
+  BlockCommandCallback,
+  SettingSchemaDesc,
+} from "@logseq/libs/dist/LSPlugin.user";
 import App3 from "./App3";
 
 const propertyOptions = [
@@ -20,6 +23,11 @@ const mainOptions = [
   "Flatten document(No bullets)",
   "Bullets for non top level elements",
   "Bullets througout the document",
+];
+const blockExportOptions = [
+  "Keep title as name of page",
+  "Keep title as heading of block",
+  "Keep no title",
 ];
 
 let settings: SettingSchemaDesc[] = [
@@ -98,7 +106,17 @@ let settings: SettingSchemaDesc[] = [
     enumPicker: "checkbox",
     description: "Pick Options for Template 3",
   },
+  {
+    key: "blockExportHandling",
+    type: "enum",
+    default: "Keep title as heading of block",
+    title: "How should single block exports be handled?",
+    enumChoices: blockExportOptions,
+    enumPicker: "radio",
+    description: "Pick Options for Template 3",
+  },
 ];
+
 logseq.useSettingsSchema(settings);
 
 export function downloadPDF() {
@@ -156,13 +174,27 @@ async function formatText(text2, template) {
 
 var md = new markdownIt().use(markdownMark).use(markdownTable);
 md.inline.ruler.enable(["mark"]);
-export async function createPDF(templateName) {
+export async function createPDF(templateName, block = undefined) {
   const currentBlock = await logseq.Editor.getCurrentPageBlocksTree();
-  for (const x in currentBlock) {
-    parseBlocksTree(currentBlock[x]);
+  if (block != undefined) {
+    parseBlocksTree(
+      await logseq.Editor.getBlock(block, { includeChildren: true })
+    );
+  } else {
+    for (const x in currentBlock) {
+      parseBlocksTree(currentBlock[x]);
+    }
   }
-  console.log(blocks2);
-  var finalString = `# ${(await logseq.Editor.getCurrentPage()).originalName}`;
+  var finalString;
+  if (logseq.settings.blockExportHandling == "Keep title as name of page") {
+    finalString = `# ${(await logseq.Editor.getCurrentPage()).originalName}`;
+  } else if (
+    logseq.settings.blockExportHandling == "Keep title as heading of block"
+  ) {
+    finalString = `# ${(await logseq.Editor.getBlock(block)).content}`;
+  } else {
+    finalString = ``;
+  }
   // var finalString = ``;
 
   if (
@@ -170,46 +202,69 @@ export async function createPDF(templateName) {
     "Bullets for non top level elements"
   ) {
     for (const x in blocks2) {
-      var formattedText = await formatText(blocks2[x][0], templateName);
-      //if templateName has bullets enabled
-      console.log(formattedText);
-      if (blocks2[x][1] > 1) {
-        formattedText = "- " + formattedText;
-        for (let step = 1; step < blocks2[x][1]; step++) {
-          //For each value of step add a space in front of the dash
-          formattedText = "  " + formattedText;
+      console.log("Hi");
+      if (
+        !(
+          blocks2[x].uuid == block &&
+          logseq.settings.blockExportHandling ==
+            "Keep title as heading of block"
+        )
+      ) {
+        var formattedText = await formatText(blocks2[x][0], templateName);
+        //if templateName has bullets enabled
+        console.log(formattedText);
+        if (blocks2[x][1] > 1) {
+          formattedText = "- " + formattedText;
+          for (let step = 1; step < blocks2[x][1]; step++) {
+            //For each value of step add a space in front of the dash
+            formattedText = "  " + formattedText;
+          }
         }
+        //Filter to remove bullets when they are hastags as well
+        console.log(formattedText);
+        finalString = `${finalString}\n\n ${formattedText}`;
       }
-      //Filter to remove bullets when they are hastags as well
-      console.log(formattedText);
-      finalString = `${finalString}\n\n ${formattedText}`;
     }
   } else if (
     logseq.settings[`${templateName}Choice`] == "Bullets througout the document"
   ) {
     for (const x in blocks2) {
-      var formattedText = await formatText(blocks2[x][0], templateName);
-      console.log(blocks2[x][1]);
-      if (blocks2[x][1] > 0) {
-        formattedText = "- " + formattedText;
-        for (let step = 1; step < blocks2[x][1]; step++) {
-          //For each value of step add a space in front of the dash
-          formattedText = "  " + formattedText;
+      if (
+        !(
+          Number(x) == 0 &&
+          logseq.settings.blockExportHandling ==
+            "Keep title as heading of block"
+        )
+      ) {
+        var formattedText = await formatText(blocks2[x][0], templateName);
+        console.log(blocks2[x][1]);
+        if (blocks2[x][1] > 0) {
+          formattedText = "- " + formattedText;
+          for (let step = 1; step < blocks2[x][1]; step++) {
+            //For each value of step add a space in front of the dash
+            formattedText = "  " + formattedText;
+          }
         }
+        finalString = `${finalString}\n\n ${formattedText}`;
       }
-      finalString = `${finalString}\n\n ${formattedText}`;
     }
   } else if (
     logseq.settings[`${templateName}Choice`] == "Flatten document(No bullets)"
   ) {
     for (const x in blocks2) {
-      var formattedText = await formatText(blocks2[x][0], templateName);
+      if (
+        !(
+          blocks2[x].uuid == block &&
+          logseq.settings.blockExportHandling ==
+            "Keep title as heading of block"
+        )
+      ) {
+        var formattedText = await formatText(blocks2[x][0], templateName);
 
-      finalString = `${finalString}\n\n ${formattedText}`;
+        finalString = `${finalString}\n\n ${formattedText}`;
+      }
     }
   }
-
-  console.log(finalString);
   finalString = finalString.replaceAll("#+BEGIN_QUOTE", "");
   finalString = finalString.replaceAll("#+END_QUOTE", "");
   // Make logseqs highlights into MD standard
@@ -279,6 +334,14 @@ const main = async () => {
       initializeApp();
     },
   });
+  const exportSinglePDF: BlockCommandCallback = async (block) => {
+    createPDF("template1", block.uuid);
+  };
+
+  logseq.Editor.registerBlockContextMenuItem(
+    "Export Block as PDF",
+    exportSinglePDF
+  );
 
   function initializeApp() {
     renderSecondApp();
