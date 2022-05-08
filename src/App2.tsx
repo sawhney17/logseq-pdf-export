@@ -24,7 +24,7 @@ const App2: React.FC = () => {
   return (
     <div>
       <div className="flex justify-center h-screen w-screen">
-        <div className=" bg-slate-400 settings-popup centered-element rounded-xl">
+        <div className="bg-slate-400 setting-popup centered-element rounded-xl">
           <div className="p-4">
             <h1 className="text-xl text">Choose your template!</h1>
             <br></br>

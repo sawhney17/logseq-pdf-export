@@ -1,3 +1,8 @@
+html {
+  --cl-charcoal: #3f3f3f;
+  --cl-darkjungle: #1e1e1e;
+  --cl-thunder: #4c4c4c;
+}
 .button {
     padding: 10px 20px;
     background-color: dodgerblue;
@@ -20,13 +25,25 @@
   transform: translateY(-50%);
 }
 .setting-popup {
+
   padding: 1em;
-  background: rgb(40, 157, 165); 
   z-index: 9; 
-  border-radius: 10px;
-  /* -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%); */
+  border-radius: 15px;
+  color: #ffffff;
+  align-items: center;
+  background-color: var(--cl-darkjungle)!important;
+    border-top: 1px solid var(--cl-charcoal);
+    border-right: 1px solid var(--cl-charcoal);
+    border-bottom: 1px solid var(--cl-charcoal);
+    border-left: 1px solid var(--cl-charcoal);
+    font-size: 1.2em;
+  font-family: system-ui;
+  padding: 0.5em;
+  border-radius: 5px;
+  outline: none;
+
 }
+
 /* .blockquote, dl, dd, h1, h2, h3, h4, h5, h6, hr, figure, p, pre {
   margin: 0;
   font-size: x-large;
