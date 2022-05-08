@@ -14,6 +14,14 @@ import {
 } from "@logseq/libs/dist/LSPlugin.user";
 import App3 from "./App3";
 
+const printPdf = () => { //Credits to https://github.com/supery-chen/
+  var script = document.createElement("script");
+  script.type = "text/javascript";
+  script.text = "window.print()";
+  parent.document.body.appendChild(script);
+  parent.document.body.removeChild(script);
+};
+
 const propertyOptions = [
   "Hide Page Properties",
   "Hide Brackets",
@@ -174,8 +182,20 @@ async function formatText(text2, template) {
 
 var md = new markdownIt().use(markdownMark).use(markdownTable);
 md.inline.ruler.enable(["mark"]);
-export async function createPDF(templateName, block = undefined) {
+export async function createPDF(
+  templateName,
+  block = undefined,
+  fullText = undefined
+) {
   var finalString;
+
+  if (fullText != undefined) {
+    logseq.hideMainUI();
+    setTimeout(printPdf, 100);
+    // printPdf();
+    throw "No text to print";
+  }
+
   const currentBlock = await logseq.Editor.getCurrentPageBlocksTree();
   if (block != undefined) {
     parseBlocksTree(
@@ -209,8 +229,8 @@ export async function createPDF(templateName, block = undefined) {
         !(
           blocks2[x].uuid == block &&
           logseq.settings.blockExportHandling ==
-            "Keep title as heading of block"
-            && block != undefined
+            "Keep title as heading of block" &&
+          block != undefined
         )
       ) {
         var formattedText = await formatText(blocks2[x][0], templateName);
@@ -359,6 +379,57 @@ const main = async () => {
       document.getElementById("root")
     );
   }
+
+  //Credits to https://github.com/supery-chen/ for the below code 
+  logseq.provideStyle(`
+  @media print {    
+    * {
+      overflow:visible !important;
+    }
+    
+    div[class^="CodeMirror"] {
+      overflow:hidden !important;
+    }
+    
+    .cm-s-light > div > textarea {
+      display: none;
+    }
+    .cm-s-solarized.cm-s-light {
+      background-color: #fdf6e3 !important;
+    }
+    
+    .CodeMirror-gutters {
+      display:none;
+    }
+    .CodeMirror-linenumber {
+      display:none;
+    }
+    .CodeMirror-sizer {
+      margin-left: 1px !important;
+      margin-bottom: 1px !important;
+      min-height: 10px !important;
+    }
+    
+    .page {
+      page-break-after:always;
+    }
+    #head {
+      display:none;
+    }
+    #left-sidebar {
+      display:none;
+    }
+    #right-sidebar {
+      display:none;
+    }
+    .references {
+      display:none;
+    }
+    .cp__sidebar-help-btn {
+      display:none;
+    }
+  }
+  `);
 
   logseq.App.registerPageMenuItem("Download Page as PDF", initializeApp);
 };

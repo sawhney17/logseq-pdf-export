@@ -8,6 +8,13 @@ const App2: React.FC = () => {
   console.log("attempts");
 
   function delegateTemplate(e) {
+    if (e.target.value == "template4"){
+      createPDF(e.target.value, undefined, 'template4');
+      throw(
+        "error"
+      )
+    }
+    
     console.log(e.target.value);
     logseq.hideMainUI();
     createPDF(e.target.value);
@@ -21,7 +28,7 @@ const App2: React.FC = () => {
           <div className="p-4">
             <h1 className="text-xl text">Choose your template!</h1>
             <br></br>
-            <div className="form-group">
+            <div className="form-group grid gap-3">
               <button
                 className="button"
                 value="template1"
@@ -42,6 +49,13 @@ const App2: React.FC = () => {
                 onClick={delegateTemplate}
               >
                 Template 3
+              </button>
+              <button
+                className="button"
+                value="template4"
+                onClick={delegateTemplate}
+              >
+                Print With Retained Formatting
               </button>
             </div>
           </div>
