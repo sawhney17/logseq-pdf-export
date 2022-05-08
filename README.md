@@ -22,6 +22,6 @@ A plugin to export the current page as your *own* custom styled pdf,
 6. Custom.css support
 
 ## Credits
-- thanks to @supery-chen for the implementation which retains _all_ formatting
+- thanks to [@supery-chen](https://github.com/supery-chen?tab=repositories) for the implementation which retains _all_ formatting
 ---
 <a href="https://www.flaticon.com/free-icons/pdf" title="pdf icons">Pdf icons created by Dimitry Miroliubov - Flaticon</a>
