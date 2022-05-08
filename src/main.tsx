@@ -69,8 +69,9 @@ const baseStyleOptions: StyleOptions = {
 
 const handleStyle = () => {
   if (logseq.settings.retainedOptions.includes("Hide Page Properties")) {
+    console.log("Hidden")
     logseq.provideStyle({
-      key: "printStyle",
+      key: "printStyle2",
       style: `
       @media print {
         .pre-block {
@@ -81,13 +82,13 @@ const handleStyle = () => {
     });
   } else {
     logseq.provideStyle({
-      key: "printStyle",
+      key: "printStyle2",
       style: `@media print { .pre-block { } }`,
     });
   }
   if (logseq.settings.retainedOptions.includes("Hide Brackets")) {
     logseq.provideStyle({
-      key: "printStyle",
+      key: "printStyle3",
       style: `
       @media print {
         .bracket {
@@ -98,7 +99,7 @@ const handleStyle = () => {
     });
   } else {
     logseq.provideStyle({
-      key: "printStyle",
+      key: "printStyle3",
       style: `@media print { .bracket { } }`,
     });
   }
