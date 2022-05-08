@@ -11,10 +11,101 @@ import markdownTable from "markdown-it-multimd-table";
 import {
   BlockCommandCallback,
   SettingSchemaDesc,
+  StyleOptions,
 } from "@logseq/libs/dist/LSPlugin.user";
 import App3 from "./App3";
+const baseStyleOptions: StyleOptions = {
+  key: "printStyle",
+  style: `
+@media print {    
+  * {
+    overflow:visible !important;
+  }
+  
+  div[class^="CodeMirror"] {
+    overflow:hidden !important;
+  }
+  
+  .cm-s-light > div > textarea {
+    display: none;
+  }
+  .cm-s-solarized.cm-s-light {
+    background-color: #fdf6e3 !important;
+  }
+  
+  .CodeMirror-gutters {
+    display:none;
+  }
+  .CodeMirror-linenumber {
+    display:none;
+  }
+  .CodeMirror-sizer {
+    margin-left: 1px !important;
+    margin-bottom: 1px !important;
+    min-height: 10px !important;
+  }
+  
+  .page {
+    page-break-after:always;
+  }
+  #head {
+    display:none;
+  }
+  #left-sidebar {
+    display:none;
+  }
+  #right-sidebar {
+    display:none;
+  }
+  .references {
+    display:none;
+  }
+  .cp__sidebar-help-btn {
+    display:none;
+  }
+}
+`,
+};
 
-const printPdf = () => { //Credits to https://github.com/supery-chen/
+const handleStyle = () => {
+  if (logseq.settings.retainedOptions.includes("Hide Page Properties")) {
+    logseq.provideStyle({
+      key: "printStyle",
+      style: `
+      @media print {
+        .pre-block {
+          display: none;
+      }
+    }
+    `,
+    });
+  } else {
+    logseq.provideStyle({
+      key: "printStyle",
+      style: `@media print { .pre-block { } }`,
+    });
+  }
+  if (logseq.settings.retainedOptions.includes("Hide Brackets")) {
+    logseq.provideStyle({
+      key: "printStyle",
+      style: `
+      @media print {
+        .bracket {
+          display: none;
+      }
+    }
+    `,
+    });
+  } else {
+    logseq.provideStyle({
+      key: "printStyle",
+      style: `@media print { .bracket { } }`,
+    });
+  }
+};
+const printPdf = () => {
+  //Credits to https://github.com/supery-chen/
+  
   var script = document.createElement("script");
   script.type = "text/javascript";
   script.text = "window.print()";
@@ -27,6 +118,10 @@ const propertyOptions = [
   "Hide Brackets",
   "Inherit logseq CSS",
 ];
+const regularExportPropertyOptions = [
+  "Hide Page Properties",
+  "Hide Brackets",
+]
 const mainOptions = [
   "Flatten document(No bullets)",
   "Bullets for non top level elements",
@@ -39,6 +134,15 @@ const blockExportOptions = [
 ];
 
 let settings: SettingSchemaDesc[] = [
+  {
+    key: "retainedOptions",
+    type: "enum",
+    default: "",
+    title: "Retained Formatting Choices",
+    enumChoices: regularExportPropertyOptions,
+    enumPicker: "checkbox",
+    description: "Pick Option for Retained Formatting",
+  },
   {
     key: "template1CSS",
     type: "string",
@@ -190,7 +294,9 @@ export async function createPDF(
   var finalString;
 
   if (fullText != undefined) {
+    handleStyle()
     logseq.hideMainUI();
+    
     setTimeout(printPdf, 100);
     // printPdf();
     throw "No text to print";
@@ -380,56 +486,9 @@ const main = async () => {
     );
   }
 
-  //Credits to https://github.com/supery-chen/ for the below code 
-  logseq.provideStyle(`
-  @media print {    
-    * {
-      overflow:visible !important;
-    }
-    
-    div[class^="CodeMirror"] {
-      overflow:hidden !important;
-    }
-    
-    .cm-s-light > div > textarea {
-      display: none;
-    }
-    .cm-s-solarized.cm-s-light {
-      background-color: #fdf6e3 !important;
-    }
-    
-    .CodeMirror-gutters {
-      display:none;
-    }
-    .CodeMirror-linenumber {
-      display:none;
-    }
-    .CodeMirror-sizer {
-      margin-left: 1px !important;
-      margin-bottom: 1px !important;
-      min-height: 10px !important;
-    }
-    
-    .page {
-      page-break-after:always;
-    }
-    #head {
-      display:none;
-    }
-    #left-sidebar {
-      display:none;
-    }
-    #right-sidebar {
-      display:none;
-    }
-    .references {
-      display:none;
-    }
-    .cp__sidebar-help-btn {
-      display:none;
-    }
-  }
-  `);
+  //Credits to https://github.com/supery-chen/ for the below code
+
+  logseq.provideStyle(baseStyleOptions);
 
   logseq.App.registerPageMenuItem("Download Page as PDF", initializeApp);
 };
