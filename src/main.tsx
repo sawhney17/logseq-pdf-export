@@ -1,7 +1,6 @@
 import "@logseq/libs";
-import React, { Children } from "react";
-import ReactDOM, { render } from "react-dom";
-import App from "./App";
+import React from "react";
+import ReactDOM from "react-dom";
 import App2 from "./App2";
 import "./index.css";
 import { handleClosePopup } from "./handleClosePopup";
@@ -69,7 +68,7 @@ const baseStyleOptions: StyleOptions = {
 
 const handleStyle = () => {
   if (logseq.settings.retainedOptions.includes("Hide Page Properties")) {
-    console.log("Hidden")
+    console.log("Hidden");
     logseq.provideStyle({
       key: "printStyle2",
       style: `
@@ -103,10 +102,28 @@ const handleStyle = () => {
       style: `@media print { .bracket { } }`,
     });
   }
+  if (logseq.settings.retainedOptions.includes("Make Bullets Black")) {
+    logseq.provideStyle({
+      key: "printStyle4",
+      style: `
+      @media print {
+        .bullet-container .bullet {
+          -webkit-print-color-adjust: exact;
+          background-color: black;
+        }
+    }
+    `,
+    });
+  } else {
+    logseq.provideStyle({
+      key: "printStyle4",
+      style: `@media print { .bullet-container .bullet { -webkit-print-color-adjust: exact;} }`,
+    });
+  }
 };
 const printPdf = () => {
   //Credits to https://github.com/supery-chen/
-  
+
   var script = document.createElement("script");
   script.type = "text/javascript";
   script.text = "window.print()";
@@ -122,7 +139,8 @@ const propertyOptions = [
 const regularExportPropertyOptions = [
   "Hide Page Properties",
   "Hide Brackets",
-]
+  "Make Bullets Black",
+];
 const mainOptions = [
   "Flatten document(No bullets)",
   "Bullets for non top level elements",
@@ -295,9 +313,9 @@ export async function createPDF(
   var finalString;
 
   if (fullText != undefined) {
-    handleStyle()
+    handleStyle();
     logseq.hideMainUI();
-    
+
     setTimeout(printPdf, 100);
     // printPdf();
     throw "No text to print";
