@@ -56,10 +56,13 @@ const baseStyleOptions: StyleOptions = {
   #right-sidebar {
     display:none;
   }
+  .cp__sidebar-help-btn {
+    display:none;
+  }
   .references {
     display:none;
   }
-  .cp__sidebar-help-btn {
+  .page-hierarchy {
     display:none;
   }
 }
@@ -120,6 +123,27 @@ const handleStyle = () => {
       style: `@media print { .bullet-container .bullet { -webkit-print-color-adjust: exact;} }`,
     });
   }
+  if (logseq.settings.retainedOptions.includes("Hide Linked References")) {
+    logseq.provideStyle({
+      key: "printStyle5",
+      style: `
+      @media print {
+        .references {
+          display:none;
+        }
+        .page-hierarchy {
+          display:none;
+        }
+    }
+    `,
+    });
+  }
+  else {
+    logseq.provideStyle({
+      key: "printStyle5",
+      style: `@media print { .references { } .page-hierarchy { } }`,
+    });
+  }
 };
 const printPdf = () => {
   //Credits to https://github.com/supery-chen/
@@ -140,6 +164,7 @@ const regularExportPropertyOptions = [
   "Hide Page Properties",
   "Hide Brackets",
   "Make Bullets Black",
+  "Hide Linked References",
 ];
 const mainOptions = [
   "Flatten document(No bullets)",
