@@ -117,8 +117,8 @@ const handleStyle = () => {
       style: `@media print { .bullet-container .bullet { -webkit-print-color-adjust: exact;} }`,
     });
   }
-  if (logseq.settings.retainedOptions.includes("Show Linked References")) {
-    console.log("Show  linked referenced")
+  if (logseq.settings.retainedOptions.includes("Hide Linked References")) {
+    console.log("Hide  linked referenced")
     logseq.provideStyle({
       key: "printStyle5",
       style: `
@@ -159,7 +159,7 @@ const regularExportPropertyOptions = [
   "Hide Page Properties",
   "Hide Brackets",
   "Make Bullets Black",
-  "Show Linked References",
+  "Hide Linked References",
 ];
 const mainOptions = [
   "Flatten document(No bullets)",
