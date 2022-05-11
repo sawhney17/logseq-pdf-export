@@ -59,12 +59,6 @@ const baseStyleOptions: StyleOptions = {
   .cp__sidebar-help-btn {
     display:none;
   }
-  .references {
-    display:none;
-  }
-  .page-hierarchy {
-    display:none;
-  }
 }
 `,
 };
@@ -123,7 +117,8 @@ const handleStyle = () => {
       style: `@media print { .bullet-container .bullet { -webkit-print-color-adjust: exact;} }`,
     });
   }
-  if (logseq.settings.retainedOptions.includes("Hide Linked References")) {
+  if (logseq.settings.retainedOptions.includes("Show Linked References")) {
+    console.log("Show  linked referenced")
     logseq.provideStyle({
       key: "printStyle5",
       style: `
@@ -164,7 +159,7 @@ const regularExportPropertyOptions = [
   "Hide Page Properties",
   "Hide Brackets",
   "Make Bullets Black",
-  "Hide Linked References",
+  "Show Linked References",
 ];
 const mainOptions = [
   "Flatten document(No bullets)",
