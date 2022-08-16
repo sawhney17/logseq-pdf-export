@@ -287,7 +287,7 @@ function renderApp(env: string) {
 var final3String = "<html><body><h1>Hello YOu are mmean</h1></body><html>";
 
 async function formatText(text2, template) {
-  var text: string = text2.replace(/:LOGBOOK:|collapsed:: true/gi, "");
+  var text: string = text2.replaceAll(/:LOGBOOK:|collapsed:: true/gi, "");
   if (text.includes("CLOCK: [")) {
     text = text.substring(0, text.indexOf("CLOCK: ["));
   }
