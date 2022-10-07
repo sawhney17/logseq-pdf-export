@@ -38,6 +38,11 @@ const baseStyleOptions: StyleOptions = {
   .CodeMirror-linenumber {
     display:none;
   }
+
+  #skip-to-main {
+    display:none;
+  }
+  
   .CodeMirror-sizer {
     margin-left: 1px !important;
     margin-bottom: 1px !important;
