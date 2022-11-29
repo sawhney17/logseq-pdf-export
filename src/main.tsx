@@ -55,6 +55,9 @@ const baseStyleOptions: StyleOptions = {
   #head {
     display:none;
   }
+  span[class^="hide-tail"] {
+    overflow:hidden !important;
+  }
   #left-sidebar {
     display:none;
   }
