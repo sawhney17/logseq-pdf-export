@@ -31,7 +31,10 @@ const baseStyleOptions: StyleOptions = {
   .cm-s-solarized.cm-s-light {
     background-color: #fdf6e3 !important;
   }
-  
+  mark{
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+  }
   .CodeMirror-gutters {
     display:none;
   }
