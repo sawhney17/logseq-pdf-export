@@ -314,16 +314,20 @@ async function formatText(text2, template) {
   const rxGetId = /\(\(([^)]*)\)\)/;
   const blockId = rxGetId.exec(text);
   if (blockId != null) {
-    const block = await logseq.Editor.getBlock(blockId[1], {
-      includeChildren: true,
-    });
-    //optional based on setting enabled
+    try {
+      const block = await logseq.Editor.getBlock(blockId[1], {
+        includeChildren: true,
+      });
+      //optional based on setting enabled
 
-    if (block != null) {
-      text = text.replace(
-        `((${blockId[1]}))`,
-        block.content.substring(0, block.content.indexOf("id::"))
-      );
+      if (block != null) {
+        text = text.replace(
+          `((${blockId[1]}))`,
+          block.content.substring(0, block.content.indexOf("id::"))
+        );
+      }
+    } catch(e) {
+      console.log(e);
     }
   }
 
