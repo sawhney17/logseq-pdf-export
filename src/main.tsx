@@ -338,6 +338,15 @@ async function formatText(text2, template) {
   }
 }
 
+const codeBlockRegExp = new RegExp('^```.*(\n.*)*```$');
+
+function prependLines(fullString, prefixFn) {
+    let lines = fullString.split("\n");
+    for (let ii = 0; ii < lines.length; ++ii)
+        lines[ii] = prefixFn(ii) + lines[ii];
+    return lines.join("\n");
+}
+
 var md = new markdownIt().use(markdownMark).use(markdownTable);
 md.inline.ruler.enable(["mark"]);
 export async function createPDF(
@@ -394,17 +403,15 @@ export async function createPDF(
         )
       ) {
         var formattedText = await formatText(blocks2[x][0], templateName);
+        console.log(blocks2[x][1]);
         //if templateName has bullets enabled
         if (blocks2[x][1] > 1) {
-          formattedText = "- " + formattedText;
-          for (let step = 1; step < blocks2[x][1]; step++) {
-            //For each value of step add a space in front of the dash
-            formattedText = "  " + formattedText;
-          }
+          formattedText = prependLines(formattedText,
+            ii => "  ".repeat(blocks2[x][1] - 1) + (ii==0 ? "- " : "  "));
         }
         //Filter to remove bullets when they are hastags as well
         console.log(formattedText);
-        finalString = `${finalString}\n\n ${formattedText}`;
+        finalString = `${finalString}\n\n${formattedText}`;
       }
     }
   } else if (
@@ -421,13 +428,10 @@ export async function createPDF(
         var formattedText = await formatText(blocks2[x][0], templateName);
         console.log(blocks2[x][1]);
         if (blocks2[x][1] > 0) {
-          formattedText = "- " + formattedText;
-          for (let step = 1; step < blocks2[x][1]; step++) {
-            //For each value of step add a space in front of the dash
-            formattedText = "  " + formattedText;
-          }
+          formattedText = prependLines(formattedText,
+            ii => "  ".repeat(blocks2[x][1]) + (ii==0 ? "- " : "  "));
         }
-        finalString = `${finalString}\n\n ${formattedText}`;
+        finalString = `${finalString}\n\n${formattedText}`;
       }
     }
   } else if (
@@ -443,7 +447,7 @@ export async function createPDF(
       ) {
         var formattedText = await formatText(blocks2[x][0], templateName);
 
-        finalString = `${finalString}\n\n ${formattedText}`;
+        finalString = `${finalString}\n\n${formattedText}`;
       }
     }
   }
